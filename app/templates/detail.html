@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Новость
+{% endblock %}
+
+{% block content %}
+    <div>
+        <h1>{{posts.title}}</h1>
+        <img style="width: 350px;" src="{{posts.image1.url}}" alt="">
+        <img style="width: 350px;"  src="{{posts.image2.url}}" alt="">
+        <img style="width: 350px;"  src="{{posts.image3.url}}" alt="">
+        <p>{{posts.inf}}</p>
+        
+    </div>
+{% endblock %}
+
+{% block header %}
+    <div>
+        <header>
+            <nav class="navbar bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/posts/">
+                        <img src='/media/site/home.png' alt="" width="30" height="24" class="d-inline-block align-text-top">
+                        Home
+                    </a>
+                    <div class="dropdown">
+                        <button class="btn  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Категории
+                        </button>
+                        <ul class="dropdown-menu">
+                            {% for rubric in rubrics %}
+                                <li><a  class="dropdown-item" href="/posts/rubric/{{ rubric.pk}}">{{ rubric.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                </div>
+                <form class="d-flex" role="search" action="{% url 'search' %}" method="get">
+                    <input name="q" class="form-control me-2" type="text" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+                    <span style="float: right;">
+                        {% if user.is_authenticated %}
+                            Hello {{ user.username }}
+                            <a href="{% url 'logout' %}">Log out.</a>
+                        {% else %}
+                            Not logged
+                            <a href="{% url 'login' %}?next=/">Log in</a>
+                        {% endif %}
+                        </span>
+                    </div>
+                </nav>
+            </header>
+        </div>
+{% endblock header%}
